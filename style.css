@@ -30,11 +30,15 @@ h2, h3 {
 
 .lead-container, .follow-container {
     width: 45%;
+    padding: 10px;
+    border: 2px solid #ddd;
+    border-radius: 10px;
+    display: flex;
+    justify-content: space-around;
 }
 
 .lead-container button, .follow-container button {
-    width: 80%;
-    margin: 5px auto;
+    width: 45px;
     padding: 10px;
     border: none;
     border-radius: 5px;
@@ -45,8 +49,36 @@ h2, h3 {
     transition: background 0.3s;
 }
 
-button:hover {
+.lead-container button.active, .follow-container button.active {
+    background: #f44336; 
+}
+
+.lead-container button:hover, .follow-container button:hover {
     background: #1976d2;
+}
+
+.extra-buttons {
+    display: flex;
+    justify-content: space-around;
+    margin-top: 20px;
+}
+
+.extra-buttons button {
+    width: 45px;
+    padding: 10px;
+    font-size: 14px;
+    border-radius: 5px;
+    background: #2b6148;
+    color: white;
+    cursor: pointer;
+}
+
+.extra-buttons button.active {
+    background: #f44336;
+}
+
+.extra-buttons button:hover {
+    background: #000000;
 }
 
 .calculate {
@@ -64,62 +96,6 @@ button:hover {
     border: 1px solid #ddd;
     background: #f9f9f9;
     border-radius: 5px;
-}
-
-.title-container {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 20px;
-}
-
-.title-container div {
-    padding: 10px 20px;
-    border: 2px solid;
-    border-radius: 5px;
-    font-size: 18px;
-    font-weight: bold;
-}
-
-.runway {
-    border-color: #ffeb3b;
-    background: #fffde7;
-}
-
-.location {
-    border-color: #f44336;
-    background: #ffebee;
-}
-
-.separator {
-    width: 2px;
-    background: #ddd;
-    height: 100%;
-}
-
-.row > div {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-
-.extra-buttons {
-    display: flex;
-    justify-content: space-around;
-    margin-top: 20px;
-}
-
-.extra-buttons button {
-    width: 45px;
-    padding: 5px;
-    font-size: 14px;
-}
-
-.summary {
-    margin-top: 20px;
-    padding: 10px;
-    background: #f1f1f1;
-    border-radius: 5px;
-    text-align: left;
 }
 
 .clear {
