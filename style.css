@@ -1,0 +1,132 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background: #f4f4f4;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.container {
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    width: 400px;
+    text-align: center;
+}
+
+h2, h3 {
+    margin: 10px 0;
+}
+
+.row {
+    display: flex;
+    justify-content: space-between;
+    margin: 20px 0;
+}
+
+.lead-container, .follow-container {
+    width: 45%;
+}
+
+.lead-container button, .follow-container button {
+    width: 80%;
+    margin: 5px auto;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    background: #2196f3;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+button:hover {
+    background: #1976d2;
+}
+
+.calculate {
+    background: #4caf50;
+    margin-top: 20px;
+}
+
+.calculate:hover {
+    background: #388e3c;
+}
+
+#result {
+    margin-top: 20px;
+    padding: 10px;
+    border: 1px solid #ddd;
+    background: #f9f9f9;
+    border-radius: 5px;
+}
+
+.title-container {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+.title-container div {
+    padding: 10px 20px;
+    border: 2px solid;
+    border-radius: 5px;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.runway {
+    border-color: #ffeb3b;
+    background: #fffde7;
+}
+
+.location {
+    border-color: #f44336;
+    background: #ffebee;
+}
+
+.separator {
+    width: 2px;
+    background: #ddd;
+    height: 100%;
+}
+
+.row > div {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.extra-buttons {
+    display: flex;
+    justify-content: space-around;
+    margin-top: 20px;
+}
+
+.extra-buttons button {
+    width: 45px;
+    padding: 5px;
+    font-size: 14px;
+}
+
+.summary {
+    margin-top: 20px;
+    padding: 10px;
+    background: #f1f1f1;
+    border-radius: 5px;
+    text-align: left;
+}
+
+.clear {
+    background: #f44336;
+    color: white;
+}
+
+.clear:hover {
+    background: #d32f2f;
+}

@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Separation Table Calculator</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="script" href="script.js">
+</head>
+<body>
+    <div class="container">
+        <div class="title-container">
+            <div class="runway">26L</div>
+            <div class="location">EGKK</div>
+        </div>
+
+        <h2>Separation Table Calculator</h2>
+
+        <div class="row">
+            <div class="lead-container">
+                <h3>Lead</h3>
+                <button onclick="setLead('E')">E</button>
+                <button onclick="setLead('W')">W</button>
+            </div>
+
+            <div class="separator"></div>
+
+            <div class="follow-container">
+                <h3>Follow</h3>
+                <button onclick="setFollow('E')">E</button>
+                <button onclick="setFollow('W')">W</button>
+            </div>
+        </div>
+
+        <div class="extra-buttons">
+            <button onclick="setWake('S')">S</button>
+            <button onclick="setWake('M')">M</button>
+            <button onclick="setWake('H')">H</button>
+            <button onclick="setWake('F')">F</button>
+        </div>
+
+        <button class="calculate" onclick="calculate()">RESULT</button>
+        <button class="clear" onclick="clearInputs()">CLEAR</button>
+
+        <div id="result">Result will appear here</div>
+
+        <div class="summary" id="summary">
+            <p><strong>Lead:</strong> <span id="lead-summary">-</span></p>
+            <p><strong>Follow:</strong> <span id="follow-summary">-</span></p>
+            <p><strong>Lead Wake:</strong> <span id="lead-wake-summary">-</span></p>
+            <p><strong>Follow Wake:</strong> <span id="follow-wake-summary">-</span></p>
+        </div>
+    </div>
+
+ 
+</body>
+</html>
