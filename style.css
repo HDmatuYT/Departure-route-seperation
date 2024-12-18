@@ -37,24 +37,44 @@ h2, h3 {
     justify-content: space-around;
 }
 
+.e-button {
+    background:  #2196f3;
+    color: white;
+}
+
+.e-button.active {
+    background: #f44336;
+}
+
+.e-button:hover {
+    background: #87ceeb;
+}
+
+.w-button {
+    background: #013b69;
+    color: white;
+}
+
+.w-button.active {
+    background: #f44336;
+}
+
+.w-button:hover {
+    background: #1976d2;
+}
+
+.lead-container button.active, .follow-container button.active {
+    background: #f44336;
+}
+
 .lead-container button, .follow-container button {
     width: 45px;
     padding: 10px;
     border: none;
     border-radius: 5px;
-    background: #2196f3;
-    color: white;
     font-size: 16px;
     cursor: pointer;
     transition: background 0.3s;
-}
-
-.lead-container button.active, .follow-container button.active {
-    background: #f44336; 
-}
-
-.lead-container button:hover, .follow-container button:hover {
-    background: #1976d2;
 }
 
 .extra-buttons {
@@ -105,4 +125,41 @@ h2, h3 {
 
 .clear:hover {
     background: #d32f2f;
+}
+
+.follow-group button {
+    width: 45px;
+    padding: 10px;
+    font-size: 14px;
+    border-radius: 5px;
+    background: #a82121;
+    color: white;
+    cursor: pointer;
+}
+
+.lead-group button {
+    width: 45px;
+    padding: 10px;
+    font-size: 14px;
+    border-radius: 5px;
+    background: #a82121;
+    color: white;
+    cursor: pointer;
+}
+
+.follow-group button.active {
+    background: white;
+}
+
+.lead-group button.active {
+    background: white;
+}
+p
+    {
+        position: absolute; 
+        top: 0;
+        left: 0;
+        text-size-adjust: 8px;
+        font-weight: bold;
+
 }
