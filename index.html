@@ -3,68 +3,52 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Separation Table Calculator</title>
-    <link rel="stylesheet" href="style.css">
-    <script src="script.js"></script>
-    <p>Version 1.1.1</p>
+    <title>Projects</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            background-color: #f0f0f0;
+        }
+        h1 {
+            color: #333;
+        }
+        p {
+            color: #666;
+        }
+        .button-container {
+            margin-top: 20px;
+        }
+        .button-container button {
+            margin: 5px;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            border: none;
+            border-radius: 5px;
+            background-color: #007BFF;
+            color: white;
+            transition: background-color 0.3s;
+        }
+        .button-container button:hover {
+            background-color: #0056b3;
+        }
+    </style>
 </head>
 <body>
-
-    <div class="container">
-        <h2>Separation Table Calculator</h2>
-        
-        <!-- Lead Section -->
-        <div class="row">
-            <div class="lead-container">
-                <h3>Lead</h3>
-                <button class="e-button" onclick="setLead('E')">E</button>
-                <button class="w-button" onclick="setLead('W')">W</button>
-            </div>
-
-            <div class="separator"></div>
-
-            <!-- Follow Section -->
-            <div class="follow-container">
-                <h3>Follow</h3>
-                <button class="e-button" onclick="setFollow('E')">E</button>
-                <button class="w-button" onclick="setFollow('W')">W</button>
-            </div>
-        </div>
-
-        <!-- Wake Turbulence -->
-        <div class="extra-buttons">
-            <button onclick="setWake('L')">L</button>
-            <button onclick="setWake('S')">S</button>
-            <button onclick="setWake('M')">M</button>
-            <button onclick="setWake('H')">H</button>
-            <button onclick="setWake('F')">J</button>
-        </div>
-
-        <!-- Group Selection -->
-        <h3>Select Group for Lead and Follow</h3>
-        <div class="group-selection">
-            <div class="lead-group">
-                <h4>Lead Group</h4>
-                <button onclick="setGroup('lead', 1)">1</button>
-                <button onclick="setGroup('lead', 2)">2</button>
-                <button onclick="setGroup('lead', 3)">3</button>
-                <button onclick="setGroup('lead', 4)">4</button>
-            </div>
-
-            <div class="follow-group">
-                <h4>Follow Group</h4>
-                <button onclick="setGroup('follow', 1)">1</button>
-                <button onclick="setGroup('follow', 2)">2</button>
-                <button onclick="setGroup('follow', 3)">3</button>
-                <button onclick="setGroup('follow', 4)">4</button>
-            </div>
-        </div>
-
-        <!-- Calculate and Clear Buttons -->
-        <button class="calculate" onclick="calculate()">RESULT</button>
-        <button class="clear" onclick="clearInputs()">CLEAR</button>
-
-        <div id="result">Result will appear here</div>
+    <h1>Mathias Lennart Mandel</h1>
+    <p>TA-24A</p>
+    <div class="button-container">
+        <button onclick="location.href='dep_route.html'">Departure route separation</button>
+        <button onclick="location.href='hypixel.html'">Hypixel skyblock bazaar flip calculator</button>
+        <button onclick="location.href='project 3.html'">Coming soon</button>
     </div>
 </body>
 </html>
