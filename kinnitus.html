@@ -1,0 +1,228 @@
+<!doctype html>
+<html lang="et">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Tellimuse kinnitus</title>
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+
+<style>
+  :root{
+    --brand:#2563eb;
+    --brand-2:#0ea5e9;
+    --ink:#0f172a;
+  }
+  body{ background:#f8fafc; color:var(--ink); }
+  .brand-gradient{
+    background: linear-gradient(90deg, var(--brand), var(--brand-2));
+  }
+  .brand-badge{
+    background: rgba(37,99,235,.08);
+    color: var(--brand);
+    border: 1px solid rgba(37,99,235,.20);
+  }
+  .card-soft{
+    border: 1px solid rgba(15,23,42,.10);
+    box-shadow: 0 10px 24px rgba(15,23,42,.06);
+  }
+  .step-dot{
+    width: 28px; height: 28px; border-radius: 999px;
+    display: inline-grid; place-items:center;
+    border:1px solid rgba(15,23,42,.18);
+    background: #fff;
+    font-weight: 700; font-size: .9rem;
+  }
+  .step-dot.active{
+    border-color: rgba(37,99,235,.45);
+    background: rgba(37,99,235,.08);
+    color: var(--brand);
+  }
+  .step-line{
+    height: 2px; background: rgba(15,23,42,.12);
+    flex: 1;
+  }
+  .step-line.active{ background: rgba(37,99,235,.45); }
+  .form-label{ font-weight: 600; }
+  .small-muted{ color:#64748b; font-size: .9rem; }
+  .table td, .table th{ vertical-align: middle; }
+  .price{
+    font-variant-numeric: tabular-nums;
+    letter-spacing: .01em;
+  }
+</style>
+
+</head>
+<body>
+<nav class="navbar navbar-expand-lg bg-white border-bottom">
+  <div class="container py-2">
+    <a class="navbar-brand d-flex align-items-center gap-2 fw-bold" href="index.html">
+      <span class="d-inline-block rounded-3 brand-gradient" style="width:18px;height:18px"></span>
+      Domeenid
+    </a>
+    <div class="ms-auto d-flex gap-2 align-items-center">
+      <span class="badge rounded-pill brand-badge">Bootstrap 5.3</span>
+      <a class="btn btn-outline-secondary btn-sm" href="index.html">Alusta uuesti</a>
+    </div>
+  </div>
+</nav>
+
+<header class="bg-white border-bottom">
+  <div class="container py-4">
+    <div class="d-flex flex-column flex-md-row align-items-start align-items-md-center justify-content-between gap-3">
+      <div>
+        <h1 class="h3 mb-1">Tellimuse kinnitus</h1>
+        <div class="small-muted">Domeeni registreerimise vorm (staatilised vaated, ilma JavaScriptita).</div>
+      </div>
+      <div class="d-flex align-items-center gap-3 w-100 w-md-auto">
+        <div class="d-flex align-items-center gap-3 flex-wrap w-100">
+          
+          <div class="d-flex align-items-center gap-2">
+            <a class="step-dot text-decoration-none" href="index.html" aria-label="Domeeni valik">1</a>
+            <div class="d-none d-md-block">
+              <div class="fw-semibold">Domeeni valik</div>
+              <div class="small-muted">Samm 1 / 3</div>
+            </div>
+          </div>
+        
+<div class="step-line active d-none d-md-block"></div>
+
+          <div class="d-flex align-items-center gap-2">
+            <a class="step-dot text-decoration-none" href="andmed.html" aria-label="Andmed">2</a>
+            <div class="d-none d-md-block">
+              <div class="fw-semibold">Andmed</div>
+              <div class="small-muted">Samm 2 / 3</div>
+            </div>
+          </div>
+        
+<div class="step-line active d-none d-md-block"></div>
+
+          <div class="d-flex align-items-center gap-2">
+            <a class="step-dot active text-decoration-none" href="kinnitus.html" aria-label="Kinnitus">3</a>
+            <div class="d-none d-md-block">
+              <div class="fw-semibold">Kinnitus</div>
+              <div class="small-muted">Samm 3 / 3</div>
+            </div>
+          </div>
+        
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<main class="container py-4">
+
+<div class="row g-4">
+  <div class="col-12 col-lg-8">
+    <div class="card card-soft">
+      <div class="card-body p-4">
+        <div class="d-flex flex-column flex-md-row justify-content-between gap-3">
+          <div>
+            <div class="badge rounded-pill brand-badge mb-2">Kontroll</div>
+            <h2 class="h5 mb-1">Kinnita tellimus</h2>
+            <div class="small-muted">Kontrolli info üle ja lõpeta tellimus (demo).</div>
+          </div>
+          <div class="text-md-end">
+            <div class="small-muted">Tellimus</div>
+            <div class="fw-semibold">#RG-2025-001</div>
+          </div>
+        </div>
+
+        <div class="row g-3 mt-2">
+          <div class="col-12 col-md-6">
+            <div class="border rounded-3 p-3 bg-white">
+              <div class="small-muted">Domeen</div>
+              <div class="fw-semibold">rgbmadis.ee</div>
+              <div class="small-muted mt-2">Periood</div>
+              <div class="fw-semibold">1 aasta</div>
+            </div>
+          </div>
+          <div class="col-12 col-md-6">
+            <div class="border rounded-3 p-3 bg-white">
+              <div class="small-muted">Registrant</div>
+              <div class="fw-semibold">Madis RGB</div>
+              <div class="small-muted mt-2">E-post</div>
+              <div class="fw-semibold">madis@example.com</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="mt-4">
+          <h3 class="h6 mb-3">Makseviis (UI)</h3>
+          <div class="row g-3">
+            <div class="col-12 col-md-6">
+              <div class="border rounded-3 p-3 bg-white h-100">
+                <div class="form-check">
+                  <input class="form-check-input" type="radio" name="pay" id="p1" checked>
+                  <label class="form-check-label fw-semibold" for="p1">Kaardimakse</label>
+                </div>
+                <div class="small-muted mt-2">Visa / Mastercard (näidis).</div>
+              </div>
+            </div>
+            <div class="col-12 col-md-6">
+              <div class="border rounded-3 p-3 bg-white h-100">
+                <div class="form-check">
+                  <input class="form-check-input" type="radio" name="pay" id="p2">
+                  <label class="form-check-label fw-semibold" for="p2">Pangaülekanne</label>
+                </div>
+                <div class="small-muted mt-2">Arve e-postile (näidis).</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="mt-4">
+          <div class="form-check">
+            <input class="form-check-input" type="checkbox" id="terms" checked>
+            <label class="form-check-label" for="terms">Nõustun teenustingimustega</label>
+          </div>
+        </div>
+
+        <div class="d-flex flex-column flex-md-row justify-content-between gap-2 mt-4">
+          <a class="btn btn-outline-secondary" href="andmed.html">Tagasi</a>
+          <a class="btn btn-primary" href="valmis.html">Esita tellimus</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-12 col-lg-4">
+    <div class="card card-soft">
+      <div class="card-body p-4">
+        <h3 class="h6 mb-3">Maksumus</h3>
+        <div class="d-flex justify-content-between">
+          <div class="small-muted">Domeen</div>
+          <div class="price fw-semibold">12,99 €</div>
+        </div>
+        <div class="d-flex justify-content-between mt-2">
+          <div class="small-muted">Teenustasu</div>
+          <div class="small-muted price">0,00 €</div>
+        </div>
+        <hr>
+        <div class="d-flex justify-content-between">
+          <div class="fw-semibold">Kokku</div>
+          <div class="fw-semibold price">12,99 €</div>
+        </div>
+        <div class="small-muted mt-2">Kuvatav summa on demo.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+</main>
+
+<footer class="border-top bg-white">
+  <div class="container py-4 small-muted d-flex flex-column flex-md-row justify-content-between gap-2">
+    <div>© 2025 Domeenid • Demo-UI</div>
+    <div class="d-flex gap-3">
+      <a class="text-decoration-none" href="index.html">Domeen</a>
+      <a class="text-decoration-none" href="andmed.html">Andmed</a>
+      <a class="text-decoration-none" href="kinnitus.html">Kinnitus</a>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>

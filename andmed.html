@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Domeeni registreerimine</title>
+<title>Andmete sisestamine</title>
 
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 
@@ -72,24 +72,24 @@
   <div class="container py-4">
     <div class="d-flex flex-column flex-md-row align-items-start align-items-md-center justify-content-between gap-3">
       <div>
-        <h1 class="h3 mb-1">Domeeni registreerimine</h1>
+        <h1 class="h3 mb-1">Andmete sisestamine</h1>
         <div class="small-muted">Domeeni registreerimise vorm (staatilised vaated, ilma JavaScriptita).</div>
       </div>
       <div class="d-flex align-items-center gap-3 w-100 w-md-auto">
         <div class="d-flex align-items-center gap-3 flex-wrap w-100">
           
           <div class="d-flex align-items-center gap-2">
-            <a class="step-dot active text-decoration-none" href="index.html" aria-label="Domeeni valik">1</a>
+            <a class="step-dot text-decoration-none" href="index.html" aria-label="Domeeni valik">1</a>
             <div class="d-none d-md-block">
               <div class="fw-semibold">Domeeni valik</div>
               <div class="small-muted">Samm 1 / 3</div>
             </div>
           </div>
         
-<div class="step-line d-none d-md-block"></div>
+<div class="step-line active d-none d-md-block"></div>
 
           <div class="d-flex align-items-center gap-2">
-            <a class="step-dot text-decoration-none" href="andmed.html" aria-label="Andmed">2</a>
+            <a class="step-dot active text-decoration-none" href="andmed.html" aria-label="Andmed">2</a>
             <div class="d-none d-md-block">
               <div class="fw-semibold">Andmed</div>
               <div class="small-muted">Samm 2 / 3</div>
@@ -118,79 +118,90 @@
   <div class="col-12 col-lg-8">
     <div class="card card-soft">
       <div class="card-body p-4">
-        <div class="d-flex flex-column flex-md-row align-items-start justify-content-between gap-3">
+        <div class="d-flex flex-column flex-md-row justify-content-between gap-3">
           <div>
-            <div class="badge rounded-pill brand-badge mb-2">Otsing</div>
-            <h2 class="h5 mb-1">Leia sobiv domeen</h2>
-            <div class="small-muted">Sisesta nimi ja vali lõpust laiend (.ee, .com, .net ...).</div>
+            <div class="badge rounded-pill brand-badge mb-2">Kontakt</div>
+            <h2 class="h5 mb-1">Sisesta registrandi andmed</h2>
+            <div class="small-muted">Võid kasutada isiku või ettevõtte andmeid.</div>
           </div>
-          <div class="text-md-end small-muted">
-            Hinnad alates <span class="fw-semibold price">8,99 €</span> / aasta
+          <div class="text-md-end">
+            <div class="small-muted">Valitud domeen</div>
+            <div class="fw-semibold">rgbmadis.ee</div>
           </div>
         </div>
 
-        <div class="mt-4">
-          <div class="input-group input-group-lg">
-            <input class="form-control" placeholder="nt rgbmadis" value="rgbmadis" aria-label="Domeeni nimi">
-            <select class="form-select" aria-label="Laiend">
-              <option selected>.ee</option>
-              <option>.com</option>
-              <option>.net</option>
-              <option>.org</option>
-              <option>.io</option>
-            </select>
-            <a class="btn btn-primary" href="#tulemused">Otsi</a>
+        <form class="mt-4">
+          <div class="row g-3">
+            <div class="col-12 col-md-6">
+              <label class="form-label">Eesnimi</label>
+              <input class="form-control" value="Madis">
+            </div>
+            <div class="col-12 col-md-6">
+              <label class="form-label">Perenimi</label>
+              <input class="form-control" value="RGB">
+            </div>
+
+            <div class="col-12 col-md-6">
+              <label class="form-label">E-post</label>
+              <input class="form-control" type="email" value="madis@example.com">
+            </div>
+            <div class="col-12 col-md-6">
+              <label class="form-label">Telefon</label>
+              <input class="form-control" value="+372 5XXXXXXX">
+            </div>
+
+            <div class="col-12">
+              <label class="form-label">Aadress</label>
+              <input class="form-control" value="Näide tn 1, Tallinn">
+            </div>
+
+            <div class="col-12 col-md-4">
+              <label class="form-label">Linn</label>
+              <input class="form-control" value="Tallinn">
+            </div>
+            <div class="col-12 col-md-4">
+              <label class="form-label">Postiindeks</label>
+              <input class="form-control" value="10111">
+            </div>
+            <div class="col-12 col-md-4">
+              <label class="form-label">Riik</label>
+              <select class="form-select">
+                <option selected>Eesti</option>
+                <option>Soome</option>
+                <option>Läti</option>
+                <option>Rootsi</option>
+              </select>
+            </div>
+
+            <div class="col-12">
+              <div class="form-check">
+                <input class="form-check-input" type="checkbox" id="privacy" checked>
+                <label class="form-check-label" for="privacy">Soovin privaatsust (kui laiend lubab)</label>
+              </div>
+            </div>
           </div>
-          <div class="small-muted mt-2">Näidistulemused on staatilised (API päringut ei tehta).</div>
+        </form>
+
+        <div class="d-flex flex-column flex-md-row justify-content-between gap-2 mt-4">
+          <a class="btn btn-outline-secondary" href="index.html">Tagasi</a>
+          <a class="btn btn-primary" href="kinnitus.html">Jätka kinnitusele</a>
         </div>
       </div>
     </div>
 
-    <div class="card card-soft mt-4" id="tulemused">
+    <div class="card card-soft mt-4">
       <div class="card-body p-4">
-        <h3 class="h6 mb-3">Saadavus & valikud</h3>
-        <div class="table-responsive">
-          <table class="table align-middle">
-            <thead>
-              <tr>
-                <th>Domeen</th>
-                <th class="text-nowrap">Hind / aasta</th>
-                <th>Staatus</th>
-                <th class="text-end">Tegevus</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td class="fw-semibold">rgbmadis.ee</td>
-                <td class="price">12,99 €</td>
-                <td><span class="badge text-bg-success">Vaba</span></td>
-                <td class="text-end"><a class="btn btn-sm btn-primary" href="andmed.html">Vali</a></td>
-              </tr>
-              <tr>
-                <td class="fw-semibold">rgbmadis.com</td>
-                <td class="price">10,99 €</td>
-                <td><span class="badge text-bg-success">Vaba</span></td>
-                <td class="text-end"><a class="btn btn-sm btn-outline-primary" href="andmed.html">Vali</a></td>
-              </tr>
-              <tr>
-                <td class="fw-semibold">rgbmadis.net</td>
-                <td class="price">9,99 €</td>
-                <td><span class="badge text-bg-secondary">Võetud</span></td>
-                <td class="text-end"><button class="btn btn-sm btn-outline-secondary" disabled>Ei saa</button></td>
-              </tr>
-              <tr>
-                <td class="fw-semibold">rgbmadis.io</td>
-                <td class="price">39,99 €</td>
-                <td><span class="badge text-bg-success">Vaba</span></td>
-                <td class="text-end"><a class="btn btn-sm btn-outline-primary" href="andmed.html">Vali</a></td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-
-        <div class="d-flex flex-column flex-md-row justify-content-between gap-2 mt-3">
-          <div class="small-muted">Soovitus: vali vähemalt 2–3 laiendit, et kaitsta brändi.</div>
-          <a class="btn btn-primary" href="andmed.html">Jätka andmetega</a>
+        <h3 class="h6 mb-2">Nimeserverid</h3>
+        <div class="small-muted mb-3">Kui sul pole veel nimeservereid, jäta vaikimisi väärtused.</div>
+        <div class="row g-3">
+          <div class="col-12 col-md-6">
+            <label class="form-label">NS1</label>
+            <input class="form-control" value="ns1.example-dns.com">
+          </div>
+          <div class="col-12 col-md-6">
+            <label class="form-label">NS2</label>
+            <input class="form-control" value="ns2.example-dns.com">
+          </div>
         </div>
       </div>
     </div>
@@ -199,42 +210,29 @@
   <div class="col-12 col-lg-4">
     <div class="card card-soft">
       <div class="card-body p-4">
-        <h3 class="h6 mb-3">Sinu ostukorv</h3>
-
-        <div class="d-flex justify-content-between align-items-start">
-          <div>
-            <div class="fw-semibold">rgbmadis.ee</div>
-            <div class="small-muted">1 aasta</div>
-          </div>
-          <div class="fw-semibold price">12,99 €</div>
-        </div>
-
-        <hr>
-
+        <h3 class="h6 mb-3">Kokkuvõte</h3>
         <div class="d-flex justify-content-between">
-          <div class="small-muted">Käibemaks</div>
-          <div class="small-muted price">—</div>
+          <div class="small-muted">Domeen</div>
+          <div class="fw-semibold">rgbmadis.ee</div>
         </div>
-
         <div class="d-flex justify-content-between mt-2">
+          <div class="small-muted">Periood</div>
+          <div class="fw-semibold">1 aasta</div>
+        </div>
+        <hr>
+        <div class="d-flex justify-content-between">
           <div class="fw-semibold">Kokku</div>
           <div class="fw-semibold price">12,99 €</div>
         </div>
-
-        <a class="btn btn-primary w-100 mt-3" href="andmed.html">Registreeri</a>
-        <div class="small-muted mt-2">Makse on demo – vorm on UI näidis.</div>
+        <a class="btn btn-primary w-100 mt-3" href="kinnitus.html">Kinnita tellimus</a>
+        <div class="small-muted mt-2">Nupud viivad staatilistele lehtedele.</div>
       </div>
     </div>
 
     <div class="card card-soft mt-4">
       <div class="card-body p-4">
-        <h3 class="h6 mb-2">Mis sisaldub?</h3>
-        <ul class="small-muted mb-0">
-          <li>DNS haldus (põhifunktsioonid)</li>
-          <li>WHOIS privaatsus (kui lubatud)</li>
-          <li>Automaatne uuendus (soovi korral)</li>
-          <li>E-posti teavitus aegumisel</li>
-        </ul>
+        <h3 class="h6 mb-2">Turvalisus</h3>
+        <div class="small-muted">Soovi korral lisa hiljem DNSSEC ja e-posti autentimine (SPF/DKIM/DMARC).</div>
       </div>
     </div>
   </div>
