@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Solar Trader — Estonian Energy Market</title>
+  <link rel="stylesheet" href="stylesolar.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Syne:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+</head>
+<body>
+  <div class="scanline"></div>
+
+  <!-- AUTH SCREEN -->
+  <div id="auth-screen" class="auth-screen">
+    <div class="auth-card">
+      <div class="auth-logo"><span>⚡</span><span>SOLAR<span class="accent">TRADER</span></span></div>
+      <div class="auth-sub">Estonian Energy Market · Nordpool Live</div>
+      <div class="auth-tabs">
+        <button class="auth-tab active" id="tab-login" onclick="switchTab('login')">Login</button>
+        <button class="auth-tab" id="tab-register" onclick="switchTab('register')">Register</button>
+      </div>
+      <div class="field-wrap">
+        <label class="field-label">Username</label>
+        <input class="field-input" type="text" id="auth-username" autocomplete="username" placeholder="your_username" />
+      </div>
+      <div class="field-wrap">
+        <label class="field-label">Password</label>
+        <input class="field-input" type="password" id="auth-password" autocomplete="current-password" placeholder="••••••••" />
+      </div>
+      <div id="auth-error" class="auth-error" style="display:none"></div>
+      <button class="auth-submit" id="auth-submit-btn" onclick="submitAuth()">LOGIN</button>
+      <div class="auth-note">Progress is saved to your account automatically.</div>
+    </div>
+  </div>
+
+  <!-- GAME SCREEN -->
+  <div id="game-screen" style="display:none">
+    <header class="header">
+      <div class="header-left">
+        <div class="logo"><span class="logo-icon">⚡</span><span class="logo-text">SOLAR<span class="accent">TRADER</span></span></div>
+        <div class="subtitle">Estonian Energy Market · Nordpool Live</div>
+      </div>
+      <div class="header-center">
+        <div class="player-badge" id="player-badge">—</div>
+      </div>
+      <div class="header-right">
+        <div class="time-display" id="clock">00:00:00</div>
+        <div class="date-display" id="datedisp"></div>
+        <button class="header-btn" onclick="logout()">LOGOUT</button>
+      </div>
+    </header>
+
+    <main class="layout">
+      <!-- LEFT -->
+      <aside class="sidebar">
+        <section class="panel">
+          <h2 class="panel-title">Balance</h2>
+          <div class="balance-display" id="balance">€1,500.00</div>
+          <div class="balance-delta" id="balance-delta">+€0.00 profit</div>
+          <div class="balance-bar-wrap"><div class="balance-bar" id="balance-bar" style="width:50%"></div></div>
+        </section>
+
+        <section class="panel">
+          <h2 class="panel-title">Today's earnings</h2>
+          <div class="stats-grid">
+            <div class="stat-box"><div class="stat-val" id="sold-eur">€0.00</div><div class="stat-lbl">Revenue</div></div>
+            <div class="stat-box"><div class="stat-val" id="sold-kwh">0.00</div><div class="stat-lbl">kWh sold</div></div>
+            <div class="stat-box"><div class="stat-val" id="solar-w">0W</div><div class="stat-lbl">Solar now</div></div>
+            <div class="stat-box"><div class="stat-val" id="bat-pct">0%</div><div class="stat-lbl">Battery</div></div>
+          </div>
+        </section>
+
+        <section class="panel">
+          <h2 class="panel-title">Battery</h2>
+          <div class="battery-visual">
+            <div class="battery-outer">
+              <div class="battery-fill" id="battery-fill" style="width:0%"></div>
+              <span class="battery-label" id="battery-label">0 / 0 Wh</span>
+            </div>
+            <div class="battery-nub"></div>
+          </div>
+          <div class="system-status" id="system-status">
+            <div class="status-row"><span class="dot gray"></span><span>No panels installed</span></div>
+          </div>
+        </section>
+
+        <section class="panel log-panel">
+          <div class="log-header">
+            <h2 class="panel-title" style="margin:0">Activity log</h2>
+            <button class="log-download-btn" onclick="downloadLog()">⬇ Download</button>
+          </div>
+          <div class="log" id="log"></div>
+        </section>
+      </aside>
+
+      <!-- CENTER -->
+      <div class="center-col">
+        <section class="panel price-panel">
+          <div class="price-panel-header">
+            <h2 class="panel-title">Nordpool · Estonia (EE)</h2>
+            <div class="price-badge" id="price-badge">Fetching…</div>
+          </div>
+          <div class="current-price-row">
+            <div>
+              <div class="price-big" id="price-big">—</div>
+              <div class="price-sub">c/kWh · current hour</div>
+            </div>
+            <div class="sell-rate">
+              <div class="sell-val" id="sell-val">—</div>
+              <div class="price-sub">spot price (manual sell)</div>
+            </div>
+          </div>
+          <div class="chart-wrap">
+            <div class="chart-bars" id="chart-bars"></div>
+            <div class="chart-axis" id="chart-axis"></div>
+          </div>
+          <div class="chart-note">Hourly prices · highlighted = current hour · green &lt;5c · orange 5–12c · red &gt;12c</div>
+        </section>
+
+        <section class="panel farm-panel">
+          <h2 class="panel-title">Your solar farm</h2>
+          <div class="farm-grid" id="farm-grid">
+            <div class="farm-empty" id="farm-empty">Buy solar panels, a controller, battery and inverter to start generating electricity.</div>
+          </div>
+          <div class="farm-stats" id="farm-stats" style="display:none">
+            <div class="farm-stat"><span id="fs-panels">0W</span><small>Panel capacity</small></div>
+            <div class="farm-stat"><span id="fs-ctrl">None</span><small>Controller</small></div>
+            <div class="farm-stat"><span id="fs-bat">None</span><small>Battery bank</small></div>
+            <div class="farm-stat"><span id="fs-inv">None</span><small>Inverter</small></div>
+            <div class="farm-stat"><span id="fs-eff">0%</span><small>Sun efficiency</small></div>
+            <div class="farm-stat"><span id="fs-gen">0W</span><small>Generating now</small></div>
+          </div>
+        </section>
+
+        <section class="panel">
+          <div class="lb-header">
+            <h2 class="panel-title" style="margin:0">Leaderboard</h2>
+            <button class="log-download-btn" onclick="loadLeaderboard()">↺ Refresh</button>
+          </div>
+          <div id="leaderboard-list" class="lb-list"><div class="lb-empty">Loading…</div></div>
+        </section>
+      </div>
+
+      <!-- RIGHT: SHOP + SELL -->
+      <aside class="shop-col">
+        <h2 class="panel-title shop-heading">Equipment shop</h2>
+        <div class="shop-category"><div class="cat-label">Solar panels</div><div id="shop-panels" class="shop-items"></div></div>
+        <div class="shop-category"><div class="cat-label">Controllers</div><div id="shop-controllers" class="shop-items"></div></div>
+        <div class="shop-category"><div class="cat-label">Batteries</div><div id="shop-batteries" class="shop-items"></div></div>
+        <div class="shop-category"><div class="cat-label">Inverters</div><div id="shop-inverters" class="shop-items"></div></div>
+
+        <div class="sell-settings panel" style="margin-top:1rem;">
+          <h2 class="panel-title">Sell electricity</h2>
+          <div class="sell-block">
+            <div class="sell-block-label">Manual sell — instant · no fee</div>
+            <div class="sell-row">
+              <div class="sell-input-wrap">
+                <input type="number" id="manual-amount" placeholder="Wh" min="1" step="1" />
+                <button class="sell-btn" id="manual-all-btn">ALL</button>
+              </div>
+              <button class="sell-btn primary" id="manual-sell-btn">SELL NOW</button>
+            </div>
+            <div class="sell-preview" id="manual-preview">Enter Wh amount above</div>
+          </div>
+          <div class="sell-divider"></div>
+          <div class="sell-block">
+            <div class="sell-block-label">Scheduled sell — future hour · 5% fee</div>
+            <div class="sell-row">
+              <div class="sell-input-wrap">
+                <input type="number" id="sched-amount" placeholder="Wh" min="1" step="1" />
+                <button class="sell-btn" id="sched-all-btn">ALL</button>
+              </div>
+            </div>
+            <div class="sell-row" style="margin-top:8px;">
+              <select id="sched-hour"></select>
+              <button class="sell-btn primary" id="sched-add-btn">SCHEDULE</button>
+            </div>
+            <div class="sell-preview" id="sched-preview">Select hour and Wh amount</div>
+          </div>
+          <div class="sell-divider"></div>
+          <div class="sell-block">
+            <div class="sell-block-label">Pending scheduled orders</div>
+            <div id="pending-orders" class="pending-list"><div class="pending-empty">No orders scheduled</div></div>
+          </div>
+        </div>
+      </aside>
+    </main>
+  </div>
+
+  <script src="game.js"></script>
+</body>
+</html>
