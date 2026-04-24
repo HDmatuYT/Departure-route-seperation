@@ -183,16 +183,23 @@ const currentPriceCents = () => S.prices.length ? (S.prices[new Date().getHours(
 // ─── PRICE FETCH ──────────────────────────────────────────────────────────────
 async function fetchPrices() {
   try {
-    const d    = new Date();
-    const from = d.toISOString().split('T')[0] + 'T00:00:00.000Z';
-    const till = d.toISOString().split('T')[0] + 'T23:59:59.000Z';
-    const resp = await fetch(`https://api.energyzero.nl/v1/energyprices?fromDate=${from}&tillDate=${till}&interval=4&usageType=1&inclBtw=false`);
+    const resp = await fetch('https://nordapi.ee/api/v1/elering/prices/today');
     if (!resp.ok) throw new Error();
     const data = await resp.json();
-    if (data.Prices && data.Prices.length >= 20) {
-      S.prices = data.Prices.map(p => +((p.price||0)*100).toFixed(2));
+    const entries = data?.data?.data?.ee;
+    if (entries && entries.length >= 24) {
+      // Price is in EUR/MWh, convert to c/kWh by dividing by 10
+      // Data is 15-min intervals, group into 24 hourly averages
+      const hourly = Array.from({ length: 24 }, () => []);
+      entries.forEach(e => {
+        const h = new Date(e.timestamp * 1000).getHours();
+        if (h >= 0 && h < 24) hourly[h].push(e.price / 10);
+      });
+      S.prices = hourly.map(bucket =>
+        bucket.length ? +(bucket.reduce((a, b) => a + b, 0) / bucket.length).toFixed(2) : 0
+      );
       S.pricesLive = true;
-      log('Live Nordpool prices loaded ✓', 'good');
+      log('Live Nordpool EE prices loaded ✓ (nordapi.ee)', 'good');
       populateHourSelect(); return;
     }
   } catch (_) {}
