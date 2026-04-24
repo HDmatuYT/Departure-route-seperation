@@ -180,40 +180,67 @@ const SUN = [0,0,0,0,0,0.02,0.10,0.25,0.45,0.65,0.82,0.94,1,0.97,0.88,0.74,0.55,
 const sunMult = () => SUN[new Date().getHours()] || 0;
 const currentPriceCents = () => S.prices.length ? (S.prices[new Date().getHours()] ?? S.prices[0]) : null;
 
-// ─── PRICE FETCH ──────────────────────────────────────────────────────────────
+// ─── PRICE FETCH (REWRITTEN) ────────────────────────────────────────────────
 async function fetchPrices() {
   try {
-    const resp = await fetch(API + '/api/prices');
-    if (!resp.ok) throw new Error();
-    const data = await resp.json();
-    if (data.prices && data.prices.length === 24) {
-      S.prices = data.prices;
-      S.pricesLive = true;
-      log('Live Nordpool EE prices loaded ✓', 'good');
-      populateHourSelect(); return;
+    const resp = await fetch(`${API}/api/prices`, { cache: "no-store" });
+
+    if (!resp.ok) {
+      throw new Error(`Worker returned ${resp.status}`);
     }
-  } catch (_) {}
-  S.prices = Array.from({length:24},(_,h) => +Math.max(0, 7+5*Math.sin((h-13)*Math.PI/12)+(Math.random()-0.5)*2).toFixed(2));
-  S.pricesLive = false;
-  log('Simulated prices loaded (API unavailable)', 'warn');
+
+    const data = await resp.json();
+
+    // Validate structure
+    if (!data || !Array.isArray(data.prices) || data.prices.length !== 24) {
+      throw new Error("Invalid price array from Worker");
+    }
+
+    // Success
+    S.prices = data.prices.map(n => Number(n) || 0);
+    S.pricesLive = true;
+
+    log("Live Nordpool EE prices loaded ✓", "good");
+  } catch (err) {
+    // Fallback to simulated prices
+    S.prices = Array.from({ length: 24 }, (_, h) =>
+      +Math.max(
+        0,
+        7 + 5 * Math.sin((h - 13) * Math.PI / 12) + (Math.random() - 0.5) * 2
+      ).toFixed(2)
+    );
+
+    S.pricesLive = false;
+
+    log(`Simulated prices loaded (Worker/API unavailable: ${err.message})`, "warn");
+  }
+
   populateHourSelect();
+  updateUI();
 }
 
 function populateHourSelect() {
-  const sel = document.getElementById('sched-hour');
-  sel.innerHTML = '';
+  const sel = document.getElementById("sched-hour");
+  sel.innerHTML = "";
+
   const now = new Date().getHours();
+
   for (let h = 0; h < 24; h++) {
     if (h <= now) continue;
-    const p   = S.prices[h] ?? 0;
-    const opt = document.createElement('option');
+
+    const p = S.prices[h] ?? 0;
+    const opt = document.createElement("option");
+
     opt.value = h;
-    opt.textContent = `${String(h).padStart(2,'0')}:00 · ${p.toFixed(1)}c → ${(p*0.95).toFixed(1)}c after 5% fee`;
+    opt.textContent = `${String(h).padStart(2, "0")}:00 · ${p.toFixed(1)}c → ${(p * 0.95).toFixed(1)}c after 5% fee`;
+
     sel.appendChild(opt);
   }
+
   if (!sel.options.length) {
-    const opt = document.createElement('option');
-    opt.value = ''; opt.textContent = 'No future hours today';
+    const opt = document.createElement("option");
+    opt.value = "";
+    opt.textContent = "No future hours today";
     sel.appendChild(opt);
   }
 }
