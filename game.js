@@ -183,23 +183,13 @@ const currentPriceCents = () => S.prices.length ? (S.prices[new Date().getHours(
 // ─── PRICE FETCH ──────────────────────────────────────────────────────────────
 async function fetchPrices() {
   try {
-    const resp = await fetch('https://nordapi.ee/api/v1/elering/prices/today');
+    const resp = await fetch(API + '/api/prices');
     if (!resp.ok) throw new Error();
     const data = await resp.json();
-    const entries = data?.data?.data?.ee;
-    if (entries && entries.length >= 24) {
-      // Price is in EUR/MWh, convert to c/kWh by dividing by 10
-      // Data is 15-min intervals, group into 24 hourly averages
-      const hourly = Array.from({ length: 24 }, () => []);
-      entries.forEach(e => {
-        const h = new Date(e.timestamp * 1000).getHours();
-        if (h >= 0 && h < 24) hourly[h].push(e.price / 10);
-      });
-      S.prices = hourly.map(bucket =>
-        bucket.length ? +(bucket.reduce((a, b) => a + b, 0) / bucket.length).toFixed(2) : 0
-      );
+    if (data.prices && data.prices.length === 24) {
+      S.prices = data.prices;
       S.pricesLive = true;
-      log('Live Nordpool EE prices loaded ✓ (nordapi.ee)', 'good');
+      log('Live Nordpool EE prices loaded ✓', 'good');
       populateHourSelect(); return;
     }
   } catch (_) {}
