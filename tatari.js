@@ -339,4 +339,37 @@
     document.head.appendChild(preconnectGoogle);
   
   })();
+  (function () {
+    const track = document.getElementById('sliderTrack');
+    const dotsEl = document.getElementById('sliderDots');
+    const prevBtn = document.getElementById('sliderPrev');
+    const nextBtn = document.getElementById('sliderNext');
+    if (!track) return;
   
+    const slides = track.querySelectorAll('.testimonial-card');
+    const total = slides.length;
+    const visible = 3;
+    const steps = total - visible;
+    let cur = 0;
+  
+    for (let i = 0; i <= steps; i++) {
+      const d = document.createElement('button');
+      d.className = 'slider-dot' + (i === 0 ? ' active' : '');
+      d.setAttribute('aria-label', 'Leht ' + (i + 1));
+      d.onclick = () => go(i);
+      dotsEl.appendChild(d);
+    }
+  
+    function go(n) {
+      cur = Math.max(0, Math.min(n, steps));
+      const slideW = slides[0].offsetWidth + 24;
+      track.style.transform = `translateX(-${cur * slideW}px)`;
+      dotsEl.querySelectorAll('.slider-dot').forEach((d, i) => d.classList.toggle('active', i === cur));
+      prevBtn.disabled = cur === 0;
+      nextBtn.disabled = cur === steps;
+    }
+  
+    prevBtn.onclick = () => go(cur - 1);
+    nextBtn.onclick = () => go(cur + 1);
+    window.addEventListener('resize', () => go(cur));
+  })();
