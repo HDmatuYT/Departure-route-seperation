@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="et">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<title>Sildilt koordinaadid</title>
+<style>
+  :root{
+    --bg: #17191c;
+    --surface: #212429;
+    --surface-2: #2a2e35;
+    --border: #383d46;
+    --text: #f2f0ea;
+    --text-dim: #9aa0a6;
+    --accent: #ffb100;
+    --accent-text: #1a1400;
+    --good: #4cd07d;
+    --bad: #ff6b6b;
+    --mono: "JetBrains Mono", "SF Mono", Consolas, monospace;
+    --sans: "Inter", -apple-system, "Segoe UI", Roboto, sans-serif;
+  }
+  * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+  html, body {
+    margin: 0; padding: 0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--sans);
+    min-height: 100%;
+  }
+  body {
+    padding: 20px 16px 40px;
+    max-width: 480px;
+    margin: 0 auto;
+  }
+  h1 {
+    font-size: 15px;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+    margin: 4px 0 18px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  h1 .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--accent); flex: none; }
+
+  .capture-box {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    border: 2px dashed var(--border);
+    border-radius: 18px;
+    padding: 34px 16px;
+    text-align: center;
+    cursor: pointer;
+    transition: border-color .15s ease, background .15s ease;
+    background: var(--surface);
+  }
+  .capture-box:active { background: var(--surface-2); border-color: var(--accent); }
+  .capture-box .icon { font-size: 40px; line-height: 1; }
+  .capture-box .label { font-size: 17px; font-weight: 600; }
+  .capture-box .sub { font-size: 13px; color: var(--text-dim); }
+  input[type=file] { display: none; }
+
+  .preview-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-top: 14px;
+  }
+  .preview-row img {
+    width: 56px; height: 56px;
+    object-fit: cover;
+    border-radius: 10px;
+    border: 1px solid var(--border);
+    flex: none;
+  }
+  .status-line {
+    font-size: 14px;
+    color: var(--text-dim);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .spinner {
+    width: 14px; height: 14px;
+    border-radius: 50%;
+    border: 2px solid var(--border);
+    border-top-color: var(--accent);
+    animation: spin .7s linear infinite;
+    flex: none;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  .divider {
+    display: flex; align-items: center; gap: 10px;
+    margin: 22px 0;
+    color: var(--text-dim);
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: .08em;
+  }
+  .divider::before, .divider::after {
+    content: ""; flex: 1; height: 1px; background: var(--border);
+  }
+
+  .manual-row { display: flex; gap: 8px; }
+  .manual-row input {
+    flex: 1;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    color: var(--text);
+    border-radius: 10px;
+    padding: 12px 14px;
+    font-size: 15px;
+    font-family: var(--sans);
+  }
+  .manual-row input:focus { outline: none; border-color: var(--accent); }
+  .btn {
+    border: none;
+    border-radius: 10px;
+    padding: 12px 16px;
+    font-weight: 700;
+    font-size: 14px;
+    cursor: pointer;
+    font-family: var(--sans);
+  }
+  .btn-accent { background: var(--accent); color: var(--accent-text); }
+  .btn-ghost {
+    background: transparent;
+    color: var(--text-dim);
+    border: 1px solid var(--border);
+  }
+
+  .result {
+    margin-top: 20px;
+    display: none;
+  }
+  .result.show { display: block; }
+
+  .addr-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 14px 16px;
+    margin-bottom: 12px;
+  }
+  .addr-card .eyebrow {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: .07em;
+    color: var(--text-dim);
+    margin-bottom: 4px;
+  }
+  .addr-card .addr-text {
+    font-size: 15px;
+    line-height: 1.4;
+  }
+
+  .coord-card {
+    background: var(--surface);
+    border: 1px solid var(--accent);
+    border-radius: 16px;
+    padding: 18px 16px;
+    cursor: pointer;
+    user-select: none;
+    position: relative;
+    transition: transform .08s ease, background .15s ease;
+  }
+  .coord-card:active { transform: scale(0.98); background: var(--surface-2); }
+  .coord-card .eyebrow {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: .07em;
+    color: var(--accent);
+    margin-bottom: 6px;
+    display: flex; justify-content: space-between; align-items: center;
+  }
+  .coord-card .coords {
+    font-family: var(--mono);
+    font-size: 22px;
+    font-weight: 700;
+    letter-spacing: .01em;
+    word-break: break-all;
+  }
+  .coord-card .copy-hint { font-size: 12px; color: var(--text-dim); margin-top: 6px; }
+  .toast {
+    position: fixed;
+    bottom: 28px;
+    left: 50%;
+    transform: translateX(-50%) translateY(0);
+    background: var(--good);
+    color: #072d16;
+    font-weight: 700;
+    font-size: 14px;
+    padding: 10px 18px;
+    border-radius: 999px;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity .2s ease, transform .2s ease;
+  }
+  .toast.show { opacity: 1; transform: translateX(-50%) translateY(-6px); }
+
+  .candidates { display: flex; flex-direction: column; gap: 8px; margin-top: 4px; }
+  .candidate-btn {
+    text-align: left;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    color: var(--text);
+    border-radius: 10px;
+    padding: 12px 14px;
+    font-size: 14px;
+    cursor: pointer;
+  }
+  .candidate-btn:active { border-color: var(--accent); }
+
+  .error-box {
+    background: rgba(255,107,107,0.1);
+    border: 1px solid var(--bad);
+    color: var(--bad);
+    border-radius: 10px;
+    padding: 10px 14px;
+    font-size: 13px;
+    margin-top: 10px;
+    display: none;
+  }
+  .error-box.show { display: block; }
+
+  .reset-row { margin-top: 16px; display: flex; justify-content: flex-end; }
+</style>
+</head>
+<body>
+
+  <h1><span class="dot"></span>Sildilt koordinaadid</h1>
+
+  <label class="capture-box" id="captureBox">
+    <div class="icon">📷</div>
+    <div class="label">Tee pilt pakisildist</div>
+    <div class="sub">või vali fail galeriist</div>
+    <input type="file" accept="image/*" capture="environment" id="fileInput">
+  </label>
+
+  <div class="preview-row" id="previewRow" style="display:none;">
+    <img id="previewImg" alt="Eelvaade">
+    <div class="status-line" id="statusLine"></div>
+  </div>
+
+  <div class="divider">või sisesta käsitsi</div>
+
+  <div class="manual-row">
+    <input type="text" id="manualInput" placeholder="nt Männi talu, Some küla, Some vald">
+    <button class="btn btn-accent" id="manualBtn">Otsi</button>
+  </div>
+
+  <div class="error-box" id="errorBox"></div>
+
+  <div class="candidates" id="candidates"></div>
+
+  <div class="result" id="result">
+    <div class="addr-card">
+      <div class="eyebrow">Leitud aadress</div>
+      <div class="addr-text" id="addrText"></div>
+    </div>
+    <div class="coord-card" id="coordCard">
+      <div class="eyebrow"><span>Koordinaadid (puuduta kopeerimiseks)</span><span>📋</span></div>
+      <div class="coords" id="coordsText"></div>
+      <div class="copy-hint">Kleebi see MyWaysse</div>
+    </div>
+    <div class="reset-row">
+      <button class="btn btn-ghost" id="resetBtn">Uus pakk</button>
+    </div>
+  </div>
+
+  <div class="toast" id="toast">Kopeeritud!</div>
+
+<script>
+const fileInput = document.getElementById('fileInput');
+const previewRow = document.getElementById('previewRow');
+const previewImg = document.getElementById('previewImg');
+const statusLine = document.getElementById('statusLine');
+const manualInput = document.getElementById('manualInput');
+const manualBtn = document.getElementById('manualBtn');
+const errorBox = document.getElementById('errorBox');
+const candidatesEl = document.getElementById('candidates');
+const result = document.getElementById('result');
+const addrText = document.getElementById('addrText');
+const coordCard = document.getElementById('coordCard');
+const coordsText = document.getElementById('coordsText');
+const resetBtn = document.getElementById('resetBtn');
+const toast = document.getElementById('toast');
+const captureBox = document.getElementById('captureBox');
+
+function showStatus(text, spinning){
+  previewRow.style.display = 'flex';
+  statusLine.innerHTML = (spinning ? '<div class="spinner"></div>' : '') + '<span>'+text+'</span>';
+}
+function showError(msg){
+  errorBox.textContent = msg;
+  errorBox.classList.add('show');
+}
+function clearError(){
+  errorBox.classList.remove('show');
+  errorBox.textContent = '';
+}
+function resetAll(){
+  result.classList.remove('show');
+  candidatesEl.innerHTML = '';
+  clearError();
+  previewRow.style.display = 'none';
+  manualInput.value = '';
+  fileInput.value = '';
+  captureBox.style.display = 'flex';
+}
+resetBtn.addEventListener('click', resetAll);
+
+function fileToBase64(file){
+  return new Promise((resolve, reject) => {
+    const r = new FileReader();
+    r.onload = () => resolve(r.result.split(',')[1]);
+    r.onerror = () => reject(new Error('Pilti ei õnnestunud lugeda'));
+    r.readAsDataURL(file);
+  });
+}
+
+async function extractAddressFromImage(base64, mediaType){
+  const prompt = `Sa vaatad pilti Eesti kulleriteenuse pakisildist või saatelehest.
+Leia sellelt SAAJA kohaletoimetamise aadress (mitte saatja aadress, mitte tagastusaadress).
+See võib olla tänavaaadress (nt "Pärnu mnt 10, Tallinn") või maa-aadress taluga (nt "Männi talu, Some küla, Some vald, Harju maakond").
+Tagasta AINULT JSON, ilma mingi muu tekstita, ilma markdown koodiplokita, täpselt sellises kujus:
+{"address": "<aadress ühe reana>", "found": true}
+Kui sobivat aadressi ei leia, tagasta {"address": "", "found": false}`;
+
+  const resp = await fetch("https://api.anthropic.com/v1/messages", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      model: "claude-sonnet-4-6",
+      max_tokens: 1000,
+      messages: [{
+        role: "user",
+        content: [
+          { type: "image", source: { type: "base64", media_type: mediaType, data: base64 } },
+          { type: "text", text: prompt }
+        ]
+      }]
+    })
+  });
+  if (!resp.ok) throw new Error('Claude API viga (' + resp.status + ')');
+  const data = await resp.json();
+  const raw = (data.content || []).map(b => b.text || '').join('');
+  const clean = raw.replace(/```json|```/g, '').trim();
+  let parsed;
+  try { parsed = JSON.parse(clean); }
+  catch(e){ throw new Error('Ei suutnud vastust lugeda: ' + raw.slice(0,120)); }
+  return parsed;
+}
+
+async function geocode(address){
+  showStatus('Otsin koordinaate...', true);
+  clearError();
+  candidatesEl.innerHTML = '';
+  result.classList.remove('show');
+
+  const url = 'https://inaadress.maaamet.ee/inaadress/gazetteer?address=' + encodeURIComponent(address);
+  let resp;
+  try {
+    resp = await fetch(url);
+  } catch(e) {
+    showError('Aadressiotsingu teenusega ei saanud ühendust (võrgu/CORS viga). Proovi hiljem uuesti.');
+    previewRow.style.display = 'none';
+    return;
+  }
+  if (!resp.ok) {
+    showError('Aadressiotsing ebaõnnestus (' + resp.status + ').');
+    previewRow.style.display = 'none';
+    return;
+  }
+  const data = await resp.json();
+  const addresses = data.addresses || [];
+  previewRow.style.display = 'none';
+
+  if (addresses.length === 0) {
+    showError('Aadressi "' + address + '" ei leitud. Proovi täpsustada (küla/vald/maakond) käsitsi väljal.');
+    manualInput.value = address;
+    return;
+  }
+  if (addresses.length === 1) {
+    showResult(addresses[0]);
+  } else {
+    candidatesEl.innerHTML = '<div class="status-line" style="margin-bottom:4px;">Mitu vastet, vali õige:</div>';
+    addresses.slice(0, 6).forEach(a => {
+      const b = document.createElement('button');
+      b.className = 'candidate-btn';
+      b.textContent = a.pikkaadress || a.aadresstekst;
+      b.addEventListener('click', () => {
+        candidatesEl.innerHTML = '';
+        showResult(a);
+      });
+      candidatesEl.appendChild(b);
+    });
+  }
+}
+
+function showResult(addr){
+  addrText.textContent = addr.pikkaadress || addr.ipikkaadress || addr.aadresstekst;
+  const lat = addr.viitepunkt_b;
+  const lon = addr.viitepunkt_l;
+  coordsText.textContent = lat + ', ' + lon;
+  result.classList.add('show');
+  candidatesEl.innerHTML = '';
+}
+
+coordCard.addEventListener('click', async () => {
+  const text = coordsText.textContent;
+  try {
+    await navigator.clipboard.writeText(text);
+  } catch(e) {
+    const ta = document.createElement('textarea');
+    ta.value = text;
+    ta.style.position = 'fixed';
+    ta.style.opacity = '0';
+    document.body.appendChild(ta);
+    ta.select();
+    document.execCommand('copy');
+    document.body.removeChild(ta);
+  }
+  toast.classList.add('show');
+  setTimeout(() => toast.classList.remove('show'), 1300);
+});
+
+fileInput.addEventListener('change', async (e) => {
+  const file = e.target.files[0];
+  if (!file) return;
+  clearError();
+  candidatesEl.innerHTML = '';
+  result.classList.remove('show');
+  captureBox.style.display = 'none';
+
+  const objUrl = URL.createObjectURL(file);
+  previewImg.src = objUrl;
+  showStatus('Loen sildilt aadressi...', true);
+
+  try {
+    const base64 = await fileToBase64(file);
+    const mediaType = file.type || 'image/jpeg';
+    const parsed = await extractAddressFromImage(base64, mediaType);
+    if (!parsed.found || !parsed.address) {
+      showError('Aadressit sildilt ei leidnud. Sisesta käsitsi allpool.');
+      previewRow.style.display = 'none';
+      return;
+    }
+    manualInput.value = parsed.address;
+    await geocode(parsed.address);
+  } catch(err) {
+    showError(err.message || 'Midagi läks valesti.');
+    previewRow.style.display = 'none';
+  }
+});
+
+manualBtn.addEventListener('click', () => {
+  const val = manualInput.value.trim();
+  if (!val) return;
+  candidatesEl.innerHTML = '';
+  captureBox.style.display = 'none';
+  geocode(val);
+});
+manualInput.addEventListener('keydown', (e) => {
+  if (e.key === 'Enter') manualBtn.click();
+});
+</script>
+</body>
+</html>
